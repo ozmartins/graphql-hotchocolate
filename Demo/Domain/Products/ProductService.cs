@@ -28,19 +28,22 @@ namespace Demo.Domain.Products
             return product;
         }
 
-        public Product? DeleteProduct(Guid id)
+        public Product? InactiveProduct(Guid id)
         {
             var product = _demoDbContext.Products.Find(id)!;
-            _demoDbContext.Products.Remove(product);
+            product.Active = false;
             _demoDbContext.SaveChanges();
             return product;
         }
 
-        public Product? GetProduct(Guid id) 
-            => _demoDbContext.Products.Find(id);
+        public Product? GetProduct(Guid id) => _demoDbContext.Products.Find(id);
 
         public IEnumerable<Product> GetProducts(int pageSize, int pageNumber) 
-            => _demoDbContext.Products.OrderBy(x => x.Description).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
-
+            => _demoDbContext
+            .Products
+            .Where(x => x.Active)
+            .OrderBy(x => x.Description)
+            .Skip(pageSize * (pageNumber - 1))
+            .Take(pageSize);        
     }
 }

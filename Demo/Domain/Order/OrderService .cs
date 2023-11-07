@@ -14,15 +14,8 @@ namespace Demo.Domain.Order
 
         public Order CreateOrder(Guid customerId)
         {
-            var customer = _demoDbContext.Customers.Find(customerId);            
-            var order = new Order 
-            { 
-                Id = Guid.NewGuid(), 
-                Date = DateTime.Today, 
-                Customer = customer,                
-                Status = OrderStatus.Open, 
-                Total = 0 
-            };            
+            var customer = _demoDbContext.Customers.Find(customerId)!;
+            var order = new Order(customer);                        
             _demoDbContext.Orders.Add(order);
             _demoDbContext.SaveChanges();
             return order;
@@ -40,7 +33,7 @@ namespace Demo.Domain.Order
         public Order? CloseOrder(Guid orderId)
         {
             var order = _demoDbContext.Orders.Find(orderId)!;
-            order.Status = OrderStatus.Closed;
+            order.Close();
             _demoDbContext.SaveChanges();
             return order;
         }
@@ -48,7 +41,7 @@ namespace Demo.Domain.Order
         public Order? CancelOrder(Guid orderId)
         {
             var order = _demoDbContext.Orders.Find(orderId)!;
-            order.Status = OrderStatus.Cancelled;
+            order.Cancel();
             _demoDbContext.SaveChanges();
             return order;
         }

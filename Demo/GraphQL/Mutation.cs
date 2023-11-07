@@ -19,11 +19,11 @@ namespace Demo.GraphQL
 
         public Product CreateProduct(string description, double price) => _productService.CreateProduct(description, price);
         public Product? UpdateProduct(Guid id, string description, double price)=> _productService.UpdateProduct(id, description, price);
-        public Product? DeleteProduct(Guid id) => _productService.DeleteProduct(id);        
+        public Product? InactiveProduct(Guid id) => _productService.InactiveProduct(id);        
 
         public Customer CreateCustomer(string name) => _customerService.CreateCustomer(name);
         public Customer? UpdateCustomer(Guid id, string name) => _customerService.UpdateCustomer(id, name);
-        public Customer? DeleteCustomer(Guid id) => _customerService.DeleteCustomer(id);
+        public Customer? InactiveCustomer(Guid id) => _customerService.InactiveCustomer(id);
 
         public Order CreateOrder(Guid customerId) => _orderService.CreateOrder(customerId);
         public Order? AddItemToOrder(Guid orderId, Guid productId, int quantity) => _orderService.AddItemToOrder(orderId, productId, quantity);

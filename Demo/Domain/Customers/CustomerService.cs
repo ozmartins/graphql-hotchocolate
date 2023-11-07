@@ -14,7 +14,7 @@ namespace Demo.Domain.Customers
 
         public Customer CreateCustomer(string name)
         {
-            var customer = new Customer { Id = Guid.NewGuid(), Name = name };
+            var customer = new Customer { Id = Guid.NewGuid(), Name = name,  };
             _demoDbContext.Customers.Add(customer);
             _demoDbContext.SaveChanges();
             return customer;
@@ -28,19 +28,23 @@ namespace Demo.Domain.Customers
             return customer;                        
         }
 
-        public Customer? DeleteCustomer(Guid id)
+        public Customer? InactiveCustomer(Guid id)
         {
             var customer = _demoDbContext.Customers.Find(id)!;
-            _demoDbContext.Remove(customer);
+            customer.Active = false;
             _demoDbContext.SaveChanges();
-            return customer;                        
+            return customer;
         }
 
-        public Customer? GetCustomer(Guid id) 
-            => _demoDbContext.Customers.Find(id);
+        public Customer? GetCustomer(Guid id) => _demoDbContext.Customers.Find(id);
 
         public IEnumerable<Customer> GetCustomers(int pageSize, int pageNumber)
-            => _demoDbContext.Customers.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+            => _demoDbContext
+            .Customers
+            .Where(x => x.Active.Equals(true))
+            .OrderBy(x => x.Name)
+            .Skip(pageSize * (pageNumber - 1))
+            .Take(pageSize);
 
     }
 }
