@@ -33,9 +33,9 @@ namespace Demo.Domain.Order
             UpdateTotal();
         }
 
-        public void RemoveItem(Guid productId)
+        public void RemoveItem(Guid orderItemId)
         {            ;
-            var orderItem = Items.FirstOrDefault(x => x.Product!.Id.Equals(productId))!;
+            var orderItem = Items.FirstOrDefault(x => x.Id.Equals(orderItemId))!;
             Items.Remove(orderItem);
             UpdateTotal();
         }

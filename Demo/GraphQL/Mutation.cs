@@ -27,7 +27,8 @@ namespace Demo.GraphQL
 
         public Order CreateOrder(Guid customerId) => _orderService.CreateOrder(customerId);
         public Order? AddItemToOrder(Guid orderId, Guid productId, int quantity) => _orderService.AddItemToOrder(orderId, productId, quantity);
-        public Order? CloseOrder(Guid orderId) => _orderService.CloseOrder(orderId);
-        public Order? CancelOrder(Guid orderId) => _orderService.CancelOrder(orderId);
+        public Order? RemoveItemFromOrder(Guid orderId, Guid productId) => _orderService.RemoveItemFromOrder(orderId, productId);
+        public Order? CloseOrder(Guid id) => _orderService.CloseOrder(id);
+        public Order? CancelOrder(Guid id) => _orderService.CancelOrder(id);
     }
 }

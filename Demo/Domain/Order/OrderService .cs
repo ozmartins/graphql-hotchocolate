@@ -30,17 +30,25 @@ namespace Demo.Domain.Order
             return order;
         }
 
-        public Order? CloseOrder(Guid orderId)
-        {
+        public Order? RemoveItemFromOrder(Guid orderId, Guid orderItemId)
+        {            
             var order = _demoDbContext.Orders.Find(orderId)!;
+            order.RemoveItem(orderItemId);
+            _demoDbContext.SaveChanges();
+            return order;
+        }
+
+        public Order? CloseOrder(Guid id)
+        {
+            var order = _demoDbContext.Orders.Find(id)!;
             order.Close();
             _demoDbContext.SaveChanges();
             return order;
         }
 
-        public Order? CancelOrder(Guid orderId)
+        public Order? CancelOrder(Guid id)
         {
-            var order = _demoDbContext.Orders.Find(orderId)!;
+            var order = _demoDbContext.Orders.Find(id)!;
             order.Cancel();
             _demoDbContext.SaveChanges();
             return order;
@@ -49,8 +57,16 @@ namespace Demo.Domain.Order
         public Order? GetOrder(Guid id)
             => _demoDbContext.Orders.Find(id);
 
-        public IEnumerable<Order> GetOrders(int pageSize, int pageNumber)
-            => _demoDbContext.Orders.OrderBy(x => x.Date).Skip(pageSize * (pageNumber - 1)).Take(pageSize);
+        public IEnumerable<Order> GetOrders(OrderStatus? status, int pageSize, int pageNumber)
+        {
+            var orders = status == null ? 
+                _demoDbContext.Orders : 
+                _demoDbContext.Orders.Where(x => status == null || x.Status.Equals(status));
 
+            return orders
+                .OrderBy(x => x.Date)
+                .Skip(pageSize * (pageNumber - 1))
+                .Take(pageSize);
+        }        
     }
 }

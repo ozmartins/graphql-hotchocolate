@@ -14,7 +14,7 @@ namespace Demo.Domain.Customers
 
         public Customer CreateCustomer(string name)
         {
-            var customer = new Customer { Id = Guid.NewGuid(), Name = name,  };
+            var customer = new Customer (name);
             _demoDbContext.Customers.Add(customer);
             _demoDbContext.SaveChanges();
             return customer;

@@ -13,7 +13,7 @@ namespace Demo.Domain.Products
 
         public Product CreateProduct(string description, double price)
         {
-            var product = new Product { Id = Guid.NewGuid(), Description = description, Price = price };
+            var product = new Product(description, price);
             _demoDbContext.Products.Add(product);
             _demoDbContext.SaveChanges();
             return product;

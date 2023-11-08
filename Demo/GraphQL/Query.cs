@@ -23,7 +23,7 @@ namespace Demo.GraphQL
         public IEnumerable<Customer> Customers(int pageSize, int pageNumber) => _customerService.GetCustomers(pageSize, pageNumber);
         public Customer? Customer(Guid id) => _customerService.GetCustomer(id);
 
-        public IEnumerable<Order> Orders(int pageSize, int pageNumber) => _orderService.GetOrders(pageSize, pageNumber);
-        public Order? Orders(Guid id) => _orderService.GetOrder(id);
+        public IEnumerable<Order> Orders(OrderStatus? status, int pageSize, int pageNumber) => _orderService.GetOrders(status, pageSize, pageNumber);
+        public Order? Order(Guid id) => _orderService.GetOrder(id);
     }
 }
